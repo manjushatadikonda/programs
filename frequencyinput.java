@@ -1,16 +1,19 @@
 package programs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class frequencyinput {
-	public int frequency(int[] arr,int num)
+	public List<Integer> frequency(int[] arr)
 	 
 	 { 
-		int value=-1;
+		
+		int max=0;
 		 HashMap<Integer, Integer> hMap= new HashMap<Integer, Integer>();
 
 	 for (int i = arr.length-1; i>= 0; i--)
@@ -32,33 +35,37 @@ public class frequencyinput {
 	    }
 
 	 }
-	 if(hMap.containsKey(num))
-	 {
+	List<Integer> list=new ArrayList<Integer>();
 	 for (Map.Entry<Integer, Integer> check : hMap.entrySet())
      {
-	if(check.getKey()==num)
-		value= check.getValue();
+	if(check.getValue()>=max)
+	{
+		max=check.getValue();
      }
 	 }
-	
-	 return value;
+	 for (Map.Entry<Integer, Integer> check : hMap.entrySet())
+     {
+		 if(check.getValue()==max)
+		 {
+			 list.add(check.getKey());
+		 }
+     }
+	 return list;
 	 }
 	 @Test
 	 public void test1()
 	 {
 		 int[] arr= {1,2,1,2,3};
-		Assert.assertEquals(frequency(arr, 3),1) ;
+		Assert.assertTrue(frequency(arr).contains(1)) ;
+		Assert.assertTrue(frequency(arr).contains(2)) ;
+		Assert.assertFalse(frequency(arr).contains(3));
 	 }
 	 @Test
 	 public void test2()
 	 {
 		 int[] arr= {6,3,3};
-		Assert.assertEquals(frequency(arr, 1),-1) ;
+		Assert.assertTrue(frequency(arr).contains(3)) ;
+		Assert.assertFalse(frequency(arr).contains(6));
 	 }
-	 @Test
-	 public void test3()
-	 {
-		 int[] arr= {1,2,3,4,3,2,2};
-		Assert.assertEquals(frequency(arr, 2),3); 
-	 }
+	 
 }
